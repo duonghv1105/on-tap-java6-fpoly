@@ -47,10 +47,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+//                .cors(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/**").hasRole("USER")
-                        .anyRequest()
-                        .permitAll()
+                        .requestMatchers("/api/khach-hang/**").hasRole("USER")
+//                        .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults());
 //                .formLogin(login -> {
