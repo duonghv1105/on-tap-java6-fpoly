@@ -39,8 +39,7 @@ public class KhachHangController {
         if (pageNo == null) {
             List<KhachHangResponse> var1 = khachHangService.findAll();
             if (var1.size() == 0) {
-                List<String> message = List.of("No data");
-                return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>("No data", HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(var1, HttpStatus.OK);
         } else {
@@ -48,14 +47,12 @@ public class KhachHangController {
             Page<KhachHangResponse> var2 = khachHangService.findAll(pageable);
             List<KhachHangResponse> var3 = var2.getContent();
             if (var3.size() == 0) {
-                List<String> message = List.of("No data");
                 /*
-                * khong the chuyen doi String sang json khi su dung ResponseEntity<Object>
-                * vi json khong biet nen dung String de xu ly chuoi hay chuyen doi sang json
-                * Can de Response<String> hoac tao kieu du lieu khac voi String
-                * */
-                return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
-//                return new ResponseEntity<>("No data", HttpStatus.NOT_FOUND);
+                 * khong the chuyen doi String sang json khi su dung ResponseEntity<Object>
+                 * vi json khong biet nen dung String de xu ly chuoi hay chuyen doi sang json
+                 * Can de Response<String> hoac tao kieu du lieu khac voi String
+                 * */
+                return new ResponseEntity<>("No data", HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(var3, HttpStatus.OK);
         }
@@ -77,7 +74,7 @@ public class KhachHangController {
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build(errorMap);
         } else {
             KhachHangResponse var1 = khachHangService.addKH(request);
-//            Object reponse = new Object() {
+//            Object response = new Object() {
 //                public final String TenKhachHang = khachHang.getTenKhachHang();
 //            };
             return new ResponseEntity<>(var1, HttpStatus.OK);
@@ -97,9 +94,9 @@ public class KhachHangController {
             });
             return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
         } else {
-            KhachHangResponse var1 = khachHangService.updateKH(id,request);
-            if(var1==null) {
-                return new ResponseEntity<>("No data for id", HttpStatus.NOT_FOUND);
+            KhachHangResponse var1 = khachHangService.updateKH(id, request);
+            if (var1 == null) {
+                return new ResponseEntity<>("No data for id: " + id, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(var1, HttpStatus.OK);
         }
@@ -107,9 +104,10 @@ public class KhachHangController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteKH(@PathVariable Long id) {
-        if(khachHangService.deleteKH(id)) {
+        if (khachHangService.deleteKH(id)) {
             return new ResponseEntity<>("Success", HttpStatus.OK);
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>("No data for id", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("No data for id: " + id, HttpStatus.NOT_FOUND);
     }
 }

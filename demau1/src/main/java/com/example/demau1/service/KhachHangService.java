@@ -21,10 +21,7 @@ public class KhachHangService {
     private KhachHangRepo khachHangRePo;
     @Autowired
     private HangKhachHangRepo hangKhachHangRePo;
-
-
     //Get all
-
     public List<KhachHangResponse> findAll() {
         List<KhachHang> var1 = khachHangRePo.findAll();
         return var1.stream().
@@ -43,7 +40,6 @@ public class KhachHangService {
     }
 
     // Update Doi  tuong
-
     public KhachHangResponse updateKH(Long id, KhachHangRequest request) {
         KhachHang var1 = khachHangRePo.findById(id).orElse(null);
         if (var1 != null) {
@@ -60,7 +56,6 @@ public class KhachHangService {
         return null;
     }
 
-
     // xoa doi tuong
     public boolean deleteKH(Long ma) {
         KhachHang kh = khachHangRePo.findById(ma).orElse(null);
@@ -70,7 +65,6 @@ public class KhachHangService {
         }
         return false;
     }
-
 
     public KhachHang toEntity(KhachHangRequest request) {
         KhachHang var1 = new KhachHang();
